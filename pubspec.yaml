@@ -1,0 +1,26 @@
+name: flutter_places_autocomplete
+description: A new flutter plugin project.
+version: 0.1.0
+homepage: https://github.com/marciowelben
+environment:
+  sdk: '>=2.1.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  mockito: ^4.1.1
+  equatable: ^1.0.2
+  http: ^0.12.0+4
+  meta: ^1.1.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.example.flutter_places_autocomplete
+        pluginClass: FlutterPlacesAutocompletePlugin
+      ios:
+        pluginClass: FlutterPlacesAutocompletePlugin
