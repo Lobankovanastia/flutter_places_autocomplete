@@ -3,9 +3,9 @@ part of flutter_places_autocomplete;
 class PlacesAutocomplete implements PlacesAutocompleteEntity {
   final String apiKey;
   final String language;
-  final String BASE_PLACE_API =
+  static const BASE_GEOLOCATION_API =
       'https://maps.googleapis.com/maps/api/geocode/json';
-  final String BASE_GEOLOCATION_API =
+  static const BASE_PLACES_API =
       'https://maps.googleapis.com/maps/api/place/details/json';
 
   PlacesAutocomplete({
@@ -17,11 +17,11 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
     String language,
     String location,
     bool strictbounds,
-    List<String> types,
+    String types,
     @required String input,
   }) async {
     final response = await Http.post(
-      BASE_PLACE_API,
+      BASE_PLACES_API,
       body: {
         'langage': language ?? this.language,
         'location': location,
