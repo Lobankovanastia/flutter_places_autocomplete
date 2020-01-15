@@ -1,7 +1,9 @@
 name: flutter_places_autocomplete
-description: A new flutter plugin project.
+description: A Google Places API plugin to get the autocomplete locations for user's input with the geolocation.
 version: 0.1.1
-homepage: https://github.com/marciowelben
+homepage: https://github.com/marciowelben/flutter_places_autocomplete
+maintainer: Marcio Montenegro (@marciowelben)
+author: Marcio Montenegr <marcio.montenegro@gmail.com>
 environment:
   sdk: '>=2.1.0 <3.0.0'
   flutter: '>=1.10.0 <2.0.0'

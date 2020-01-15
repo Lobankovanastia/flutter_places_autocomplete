@@ -1,16 +1,54 @@
 # flutter_places_autocomplete_example
-
-Demonstrates how to use the flutter_places_autocomplete plugin.
-
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Given the following Widget with a TextField and a Button:
 
-A few resources to get you started if this is your first Flutter project:
+```
+ @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter Places Autocomplete'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextField(
+              controller: searchController,
+            ),
+            RaisedButton(
+              onPressed: _fetchPredictions,
+              child: Text(
+                'Search',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  ```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+  You can use the `_fetchPredictions` to fetch and save on state the result for the location:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+  ```
+  Future<void> _fetchPredictions() async {
+    setState(() async {
+      predictions = await placesAutocomplete.getPreditcions(input: 'london');
+    });
+  }
+```
+
+You can display it on a ListView for example:
+
+```
+Widget _listView() {
+    return ListView.builder(
+        itemCount: predictions.length,
+        itemBuilder: (BuildContext context, int index) {
+          return new Text(predictions[index].description);
+        });
+  }
+  ```
