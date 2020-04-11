@@ -16,7 +16,6 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
   Future<List<Prediction>> getPredictions({
     String language,
     String location,
-    bool strictbounds,
     String type,
     @required String input,
   }) async {
@@ -24,7 +23,6 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
     Map<String,String> params = {
 		'language': language ?? this.language,
 		'location': location,
-		'strictbounds': strictbounds.toString(),
 		'type': type,
 		'input': input,
 		'key': apiKey,

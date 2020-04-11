@@ -4,7 +4,6 @@ abstract class PlacesAutocompleteEntity {
   Future<List<dynamic>> getPredictions(
       {String language,
       String location,
-      bool strictbounds,
       String type,
       String input});
 
