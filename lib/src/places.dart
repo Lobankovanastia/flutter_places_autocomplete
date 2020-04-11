@@ -5,7 +5,7 @@ abstract class PlacesAutocompleteEntity {
       {String language,
       String location,
       bool strictbounds,
-      String types,
+      String type,
       String input});
 
   Future<dynamic> getGeolocation({

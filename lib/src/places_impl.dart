@@ -6,7 +6,7 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
   static const BASE_GEOLOCATION_API =
       'https://maps.googleapis.com/maps/api/geocode/json';
   static const BASE_PLACES_API =
-      'https://maps.googleapis.com/maps/api/place/details/json';
+      'https://maps.googleapis.com/maps/api/place/textsearch/json';
 
   PlacesAutocomplete({
     @required this.apiKey,
@@ -17,20 +17,21 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
     String language,
     String location,
     bool strictbounds,
-    String types,
+    String type,
     @required String input,
   }) async {
-    final response = await Http.post(
-      BASE_PLACES_API,
-      body: {
-        'language': language ?? this.language,
-        'location': location,
-        'strictbounds': strictbounds,
-        'types': types,
-        'input': input,
-        'key': apiKey,
-      },
-    );
+  	Uri uri = Uri.parse(BASE_PLACES_API);
+    Map<String,String> params = {
+	    'language': language ?? this.language,
+	  'location': location,
+	  'strictbounds': strictbounds.toString(),
+	  'type': type,
+	  'input': input,
+	  'key': apiKey,
+	  };
+  	Uri uriWithParams = uri.replace(queryParameters: params);
+  	print(uriWithParams.toString());
+    final response = await Http.get(uriWithParams);
 
     final predictionJson = JSON.jsonDecode(response.body);
 
