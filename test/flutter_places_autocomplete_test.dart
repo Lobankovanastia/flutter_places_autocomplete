@@ -135,21 +135,21 @@ void main() {
         });
 
         test('should return place data when success', () async {
-          when(placesAutocomplete.getPreditcions(input: 'london'))
+          when(placesAutocomplete.getPredictions(input: 'london'))
               .thenAnswer((_) async => tPredictions);
 
           final result =
-              await placesAutocomplete.getPreditcions(input: 'london');
+              await placesAutocomplete.getPredictions(input: 'london');
 
           expect(result[0].placeId, tPrediction.placeId);
         });
 
         test('should return exception when no results returned', () async {
-          when(placesAutocomplete.getPreditcions(input: 'london'))
+          when(placesAutocomplete.getPredictions(input: 'london'))
               .thenThrow(ZeroResultsException());
 
           try {
-            await placesAutocomplete.getPreditcions(input: 'london');
+            await placesAutocomplete.getPredictions(input: 'london');
           } on ZeroResultsException catch (e) {
             expect(e, isA<ZeroResultsException>());
             expect(e.errorMessage, 'There are no results for this search!');
@@ -157,11 +157,11 @@ void main() {
         });
 
         test('should return exception when server error', () async {
-          when(placesAutocomplete.getPreditcions(input: 'london'))
+          when(placesAutocomplete.getPredictions(input: 'london'))
               .thenThrow(ServerException());
 
           try {
-            await placesAutocomplete.getPreditcions(input: 'london');
+            await placesAutocomplete.getPredictions(input: 'london');
           } on ServerException catch (e) {
             expect(e, isA<ServerException>());
             expect(e.errorMessage, 'Server error, try again!');
@@ -169,11 +169,11 @@ void main() {
         });
 
         test('should return exception when places api reached limit', () async {
-          when(placesAutocomplete.getPreditcions(input: 'london'))
+          when(placesAutocomplete.getPredictions(input: 'london'))
               .thenThrow(OverLimitException());
 
           try {
-            await placesAutocomplete.getPreditcions(input: 'london');
+            await placesAutocomplete.getPredictions(input: 'london');
           } on OverLimitException catch (e) {
             expect(e, isA<OverLimitException>());
             expect(e.errorMessage,
@@ -182,11 +182,11 @@ void main() {
         });
 
         test('should return exception when key is invalid', () async {
-          when(placesAutocomplete.getPreditcions(input: 'london'))
+          when(placesAutocomplete.getPredictions(input: 'london'))
               .thenThrow(UnauthorizedException());
 
           try {
-            await placesAutocomplete.getPreditcions(input: 'london');
+            await placesAutocomplete.getPredictions(input: 'london');
           } on UnauthorizedException catch (e) {
             expect(e, isA<UnauthorizedException>());
             expect(e.errorMessage, 'Unauthorized, check you aplication key!');

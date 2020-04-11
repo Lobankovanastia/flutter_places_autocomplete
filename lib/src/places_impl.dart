@@ -13,7 +13,7 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
     this.language = 'en',
   });
 
-  Future<List<Prediction>> getPreditcions({
+  Future<List<Prediction>> getPredictions({
     String language,
     String location,
     bool strictbounds,
@@ -23,7 +23,7 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
     final response = await Http.post(
       BASE_PLACES_API,
       body: {
-        'langage': language ?? this.language,
+        'language': language ?? this.language,
         'location': location,
         'strictbounds': strictbounds,
         'types': types,
@@ -57,37 +57,42 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
     return result as List;
   }
 
-  Future<Geolocation> getGeolocation(
-      {@required String placeId,
-      String sessionToken,
-      List<String> fields}) async {
-    final response = await Http.post(
-      BASE_GEOLOCATION_API,
-      body: {
-        'place_id': placeId,
-        'langage': language,
-        'fields': fields,
-        'sessionToken': sessionToken,
-        'key': apiKey,
-      },
-    );
-
-    final json = JSON.jsonDecode(response.body);
-
-    if (json['status'] != 'OK') {
-      switch (json['status']) {
-        case 'UNKNOWN_ERROR':
-          throw ServerException();
-        case 'ZERO_RESULTS':
-        case 'NOT_FOUND':
-          throw ZeroResultsException();
-        case 'OVER_QUERY_LIMIT':
-          throw OverLimitException();
-        case 'REQUEST_DENIED':
-          throw UnauthorizedException();
-      }
+    Future<Geolocation> getGeolocation({
+        @required String placeId,
+        String sessionToken,
+        List<String> fields
+    }) async {
+        final response = await Http.post(
+            BASE_GEOLOCATION_API,
+            body: {
+                'place_id': placeId,
+                'language': language,
+                'fields': fields,
+                'sessionToken': sessionToken,
+                'key': apiKey,
+            },
+        );
+        
+        final json = JSON.jsonDecode(response.body);
+        _checkStatus(json['status']);
+        
+        return Geolocation.fromJSON(json);
     }
-
-    return Geolocation.fromJSON(json);
-  }
+  
+  
+    void _checkStatus(String status) {
+        if (status != 'OK') {
+            switch (status) {
+                case 'UNKNOWN_ERROR':
+                    throw ServerException();
+                case 'ZERO_RESULTS':
+                case 'NOT_FOUND':
+                    throw ZeroResultsException();
+                case 'OVER_QUERY_LIMIT':
+                    throw OverLimitException();
+                case 'REQUEST_DENIED':
+                    throw UnauthorizedException();
+            }
+        }
+    }
 }

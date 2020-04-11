@@ -1,7 +1,7 @@
 part of flutter_places_autocomplete;
 
 abstract class PlacesAutocompleteEntity {
-  Future<List<dynamic>> getPreditcions(
+  Future<List<dynamic>> getPredictions(
       {String language,
       String location,
       bool strictbounds,

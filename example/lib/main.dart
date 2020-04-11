@@ -69,7 +69,7 @@ class _FlutterPlacesAutocompleteWidgetState
 
   Future<void> _fetchPredictions() async {
     setState(() async {
-      predictions = await placesAutocomplete.getPreditcions(input: 'london');
+      predictions = await placesAutocomplete.getPredictions(input: 'london');
     });
   }
 
