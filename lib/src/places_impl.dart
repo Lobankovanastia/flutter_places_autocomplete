@@ -24,7 +24,7 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
 		'language': language ?? this.language,
 		'location': location,
 		'type': type,
-		'input': input,
+		'query': input,
 		'key': apiKey,
 	};
   	Uri uriWithParams = uri.replace(queryParameters: params);
