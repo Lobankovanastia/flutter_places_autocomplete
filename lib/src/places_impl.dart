@@ -27,7 +27,7 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
         'location': location,
         'strictbounds': strictbounds,
         'types': types,
-        'inpuit': input,
+        'input': input,
         'key': apiKey,
       },
     );
