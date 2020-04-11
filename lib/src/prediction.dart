@@ -2,17 +2,16 @@ part of flutter_places_autocomplete;
 
 abstract class PredictionEntity {
   // Complete string format of the location
-  String description;
+  String name;
   // Id to identify the location on google places api
   String placeId;
   // List of types of this location
   String types;
-  // Description separated by items
-  List<String> terms;
+
 
   Geolocation geolocation;
 
-  PredictionEntity({this.description, this.placeId, this.types, this.terms});
+  PredictionEntity({this.name, this.placeId, this.types});
   PredictionEntity.fromJSON(
       Map<String, dynamic> place, Geolocation geolocation);
 }
@@ -20,11 +19,10 @@ abstract class PredictionEntity {
 class Prediction extends PredictionEntity {
   Prediction({description, placeId, types, terms});
 
-  Prediction.fromJSON(Map<String, dynamic> place, Geolocation geolocation) {
-    this.description = place['description'];
+  Prediction.fromJSON(Map<String, dynamic> place) {
+    this.name = place['name'];
     this.placeId = place['place_id'];
     this.types = (place['types'] as List).join(',');
-    this.terms = (place['terms'] as List).map((term) => term.value).toList();
-    this.geolocation = geolocation;
+    this.geolocation = Geolocation.fromJSON({'result': place}) ;
   }
 }

@@ -22,24 +22,18 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
   }) async {
   	Uri uri = Uri.parse(BASE_PLACES_API);
     Map<String,String> params = {
-	    'language': language ?? this.language,
-	  'location': location,
-	  'strictbounds': strictbounds.toString(),
-	  'type': type,
-	  'input': input,
-	  'key': apiKey,
-	  };
+		'language': language ?? this.language,
+		'location': location,
+		'strictbounds': strictbounds.toString(),
+		'type': type,
+		'input': input,
+		'key': apiKey,
+	};
   	Uri uriWithParams = uri.replace(queryParameters: params);
   	print(uriWithParams.toString());
     final response = await Http.get(uriWithParams);
 
     final predictionJson = JSON.jsonDecode(response.body);
-
-    final Geolocation geolocation =
-        await getGeolocation(placeId: predictionJson['place_id']);
-
-    final result = (predictionJson as List).map((prediction) =>
-        Prediction.fromJSON(prediction, geolocation.locationAsString()));
 
     if (predictionJson['status'] != 'OK') {
       switch (predictionJson['status']) {
@@ -54,6 +48,9 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
           throw UnauthorizedException();
       }
     }
+  
+    final result = (predictionJson['results'] as List).map((prediction) =>
+	    Prediction.fromJSON(prediction));
 
     return result as List;
   }

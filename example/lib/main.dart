@@ -77,7 +77,7 @@ class _FlutterPlacesAutocompleteWidgetState
     return ListView.builder(
         itemCount: predictions.length,
         itemBuilder: (BuildContext ctxt, int index) {
-          return new Text(predictions[index].description);
+          return new Text(predictions[index].name);
         });
   }
 }
