@@ -28,7 +28,7 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
 		'key': apiKey,
 	};
   	Uri uriWithParams = uri.replace(queryParameters: params);
-
+  	print(uriWithParams.toString());
     final response = await Http.get(uriWithParams);
 
     final predictionJson = JSON.jsonDecode(response.body);
