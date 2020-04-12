@@ -6,7 +6,7 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
   static const BASE_GEOLOCATION_API =
       'https://maps.googleapis.com/maps/api/geocode/json';
   static const BASE_PLACES_API =
-      'https://maps.googleapis.com/maps/api/place/textsearch/json';
+      'https://maps.googleapis.com/maps/api/place/autocomplete/json';
 
   PlacesAutocomplete({
     @required this.apiKey,
@@ -24,7 +24,7 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
 		'language': language ?? this.language,
 		'location': location,
 		'type': type,
-		'query': input,
+		'input': input,
 		'key': apiKey,
 	};
   	Uri uriWithParams = uri.replace(queryParameters: params);
