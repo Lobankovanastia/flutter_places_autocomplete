@@ -47,7 +47,7 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
       }
     }
   
-    final result = (predictionJson['results'] as List).map(
+    final result = (predictionJson['predictions'] as List).map(
 		    (prediction) => Prediction.fromJSON(prediction)
     ).toList();
 
