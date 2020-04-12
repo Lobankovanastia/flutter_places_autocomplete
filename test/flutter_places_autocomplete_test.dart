@@ -12,10 +12,9 @@ void main() {
   );
 
   final tPrediction = Prediction(
-    description: 'London, UK',
+    name: 'London, UK',
     placeId: 'ChIJdd4hrwug2EcRmSrV3Vo6llI',
     types: ["locality", "political", "geocode"],
-    terms: ["London", "UK"],
   );
 
   final tPredictions = [tPrediction];

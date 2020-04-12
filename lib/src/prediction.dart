@@ -9,20 +9,17 @@ abstract class PredictionEntity {
   String types;
 
 
-  Geolocation geolocation;
-
   PredictionEntity({this.name, this.placeId, this.types});
   PredictionEntity.fromJSON(
-      Map<String, dynamic> place, Geolocation geolocation);
+      Map<String, dynamic> place);
 }
 
 class Prediction extends PredictionEntity {
-  Prediction({description, placeId, types, terms});
+  Prediction({name, placeId, types});
 
   Prediction.fromJSON(Map<String, dynamic> place) {
-    this.name = place['name'];
+    this.name = (place["structured_formatting"] as Map<String, dynamic>)['main_text'].toString();
     this.placeId = place['place_id'];
     this.types = (place['types'] as List).join(',');
-    this.geolocation = Geolocation.fromJSON({'result': place}) ;
   }
 }
