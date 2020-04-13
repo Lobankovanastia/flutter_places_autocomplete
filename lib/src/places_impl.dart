@@ -48,10 +48,10 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
     }
   
     final result = (predictionJson['predictions'] as List).map(
-		    (prediction) => Prediction.fromJSON(prediction)
+		    (prediction) =>  Prediction.fromJSON(prediction)
     ).toList();
 
-    return result;
+    return Map.fromIterable(result, key: (v) => v.name).values.toList();
   }
 
     Future<Geolocation> getGeolocation({
