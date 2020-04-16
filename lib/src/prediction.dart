@@ -7,9 +7,11 @@ abstract class PredictionEntity {
   String placeId;
   // List of types of this location
   String types;
+  
+  String address;
 
 
-  PredictionEntity({this.name, this.placeId, this.types});
+  PredictionEntity({this.name, this.placeId, this.types, this.address});
   PredictionEntity.fromJSON(
       Map<String, dynamic> place);
 }
@@ -18,8 +20,10 @@ class Prediction extends PredictionEntity {
   Prediction({name, placeId, types});
 
   Prediction.fromJSON(Map<String, dynamic> place) {
-    this.name = (place["structured_formatting"] as Map<String, dynamic>)['main_text'].toString();
+    Map<String, dynamic> structuredFormatting = (place["structured_formatting"] as Map<String, dynamic>);
+    this.name = structuredFormatting['main_text'].toString();
     this.placeId = place['place_id'];
     this.types = (place['types'] as List).join(',');
+    this.address = structuredFormatting.containsKey('secondary_text') ? structuredFormatting['secondary_text']: null;
   }
 }

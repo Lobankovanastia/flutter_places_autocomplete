@@ -3,31 +3,37 @@ part of flutter_places_autocomplete;
 class PlacesAutocomplete implements PlacesAutocompleteEntity {
   final String apiKey;
   final String language;
-  static const BASE_GEOLOCATION_API =
-      'https://maps.googleapis.com/maps/api/geocode/json';
+  static const BASE_PLACE_DETAILS_API =
+      'https://maps.googleapis.com/maps/api/place/details/json';
   static const BASE_PLACES_API =
       'https://maps.googleapis.com/maps/api/place/autocomplete/json';
 
   PlacesAutocomplete({
     @required this.apiKey,
-    this.language = 'en',
+    this.language = '',
   });
 
   Future<List<Prediction>> getPredictions({
-    String language,
     String location,
     String type,
+    String sessiontoken,
     @required String input,
   }) async {
   	Uri uri = Uri.parse(BASE_PLACES_API);
     Map<String,String> params = {
-		'language': language ?? this.language,
 		'location': location,
 		'type': type,
 		'input': input,
 		'key': apiKey,
+        'radius': 3000.toString(),
+        'sessiontoken': sessiontoken
 	};
+    if (language != null) {
+        params['language'] = language;
+    }
   	Uri uriWithParams = uri.replace(queryParameters: params);
+  	
+  	//print(uriWithParams.toString());
   	
     final response = await Http.get(uriWithParams);
 
@@ -46,12 +52,16 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
           throw UnauthorizedException();
       }
     }
-  
-    final result = (predictionJson['predictions'] as List).map(
-		    (prediction) =>  Prediction.fromJSON(prediction)
-    ).toList();
 
-    return Map.fromIterable(result, key: (v) => v.name).values.toList();
+    Map<String, Prediction> result = Map.fromIterable(
+        (predictionJson['predictions'] as List).map(
+            (prediction) =>  Prediction.fromJSON(prediction)
+        ),
+        key: (v) => v.name,
+        value: (v) => v
+    );
+    
+    return result.values.toList();
   }
 
     Future<Geolocation> getGeolocation({
@@ -59,17 +69,21 @@ class PlacesAutocomplete implements PlacesAutocompleteEntity {
         String sessionToken,
         List<String> fields
     }) async {
-        final response = await Http.post(
-            BASE_GEOLOCATION_API,
-            body: {
-                'place_id': placeId,
-                'language': language,
-                'fields': fields,
-                'sessionToken': sessionToken,
-                'key': apiKey,
-            },
-        );
+    
+        Uri uri = Uri.parse(BASE_PLACE_DETAILS_API);
+        Map<String,String> params = {
+            'place_id': placeId,
+            'fields': fields.join(','),
+            'sessiontoken': sessionToken,
+            'key': apiKey,
+        };
+        if (language != null) {
+            params['language'] = language;
+        }
         
+        Uri uriWithParams = uri.replace(queryParameters: params);
+        //print(uriWithParams.toString());
+        final response = await Http.get(uriWithParams);
         final json = JSON.jsonDecode(response.body);
         _checkStatus(json['status']);
         

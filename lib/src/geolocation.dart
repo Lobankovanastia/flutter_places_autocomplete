@@ -1,22 +1,21 @@
 part of flutter_places_autocomplete;
 
 class GeolocationEntity {
-  double lat;
-  double lng;
-  Map<String, dynamic> geolocation;
+  
+  String address;
+  
 
-  GeolocationEntity(this.lat, this.lng);
+  GeolocationEntity(this.address);
   GeolocationEntity.fromJSON(Map<String, dynamic> geolocation);
 }
 
 class Geolocation extends GeolocationEntity {
-  Geolocation(lat, lng) : super(lat, lng);
+  Geolocation(address) : super(address);
 
   Geolocation.fromJSON(Map<String, dynamic> geolocation)
-      : super(geolocation["result"]["geometry"]["location"]['lat'],
-            geolocation["result"]["geometry"]["location"]['lng']);
+      : super(geolocation["result"]["formatted_address"]);
 
   get locationAsString {
-    return '$lat,$lng';
+    return '$address';
   }
 }
